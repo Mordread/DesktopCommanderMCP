@@ -17,7 +17,7 @@ Preserve stock behavior when MainRig extensions are disabled.
 
 ## Extension boundary
 MainRig-specific behavior belongs under `src/mainrig/` and is called only from narrow existing extension points.
-Initial configuration is opt-in through environment variables so no migration or config-schema redesign is required.
+Initial behavior is opt-in through explicit `shell` aliases in the existing `start_process` schema; `DC_WSL_DISTRO` is only an optional default. No migration or config-schema redesign is required.
 The first supported host profile is Windows plus WSL2 Ubuntu.
 
 ## Execution model

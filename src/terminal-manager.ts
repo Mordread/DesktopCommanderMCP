@@ -5,6 +5,7 @@ import { DEFAULT_COMMAND_TIMEOUT } from './config.js';
 import { configManager } from './config-manager.js';
 import {capture} from "./utils/capture.js";
 import { analyzeProcessState } from './utils/process-detection.js';
+import { resolveExecutionProfile } from './mainrig/execution-profile.js';
 
 /**
  * Standard Windows PATHEXT value, used to repair a corrupted PATHEXT before
@@ -87,6 +88,9 @@ interface ShellSpawnConfig {
  * This handles login shell flags for different shell types
  */
 function getShellSpawnArgs(shellPath: string, command: string): ShellSpawnConfig {
+  const executionProfile = resolveExecutionProfile(shellPath, command);
+  if (executionProfile) return executionProfile;
+
   const shellName = path.basename(shellPath).toLowerCase();
   
   // Unix shells with login flag support
