@@ -1,11 +1,11 @@
 $ErrorActionPreference = 'Stop'
 
 $taskName = 'Desktop Commander MainRig'
-$launcher = 'C:\Dev\AI\DesktopCommanderMCP\scripts\mainrig\start-remote.cmd'
+$wrapper = 'C:\Dev\AI\DesktopCommanderMCP\scripts\mainrig\start-remote-hidden.vbs'
 $userId = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
-$cmd = Join-Path $env:SystemRoot 'System32\cmd.exe'
+$wscript = Join-Path $env:SystemRoot 'System32\wscript.exe'
 
-$action = New-ScheduledTaskAction -Execute $cmd -Argument "/d /c `"`"$launcher`"`""
+$action = New-ScheduledTaskAction -Execute $wscript -Argument "//B //NoLogo `"$wrapper`""
 $trigger = New-ScheduledTaskTrigger -AtLogOn -User $userId
 $principal = New-ScheduledTaskPrincipal -UserId $userId -LogonType Interactive -RunLevel Limited
 $settings = New-ScheduledTaskSettingsSet `
