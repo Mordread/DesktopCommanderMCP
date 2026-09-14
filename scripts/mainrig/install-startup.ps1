@@ -10,8 +10,6 @@ $trigger = New-ScheduledTaskTrigger -AtLogOn -User $userId
 $principal = New-ScheduledTaskPrincipal -UserId $userId -LogonType Interactive -RunLevel Limited
 $settings = New-ScheduledTaskSettingsSet `
   -MultipleInstances IgnoreNew `
-  -RestartCount 10 `
-  -RestartInterval (New-TimeSpan -Minutes 1) `
   -StartWhenAvailable `
   -ExecutionTimeLimit ([TimeSpan]::Zero) `
   -AllowStartIfOnBatteries `
@@ -19,6 +17,7 @@ $settings = New-ScheduledTaskSettingsSet `
   -Hidden
 
 Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger `
-  -Principal $principal -Settings $settings -Description 'MainRig Desktop Commander downstream remote device' -Force | Out-Null
+  -Principal $principal -Settings $settings `
+  -Description 'MainRig Desktop Commander windowless supervised remote device' -Force | Out-Null
 
 Get-ScheduledTask -TaskName $taskName | Get-ScheduledTaskInfo
